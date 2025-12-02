@@ -1,0 +1,11 @@
+#table-homeslider_slide {
+  img.img-thumbnail,
+  video {
+    max-width: 125px;
+    padding: 4px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    display: inline-block;
+    height: auto;
+  }
+}

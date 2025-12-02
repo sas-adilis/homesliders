@@ -1,0 +1,22 @@
+{
+  "name": "adilis/homeslider",
+  "config": {
+    "prepend-autoloader": false
+  },
+  "autoload": {
+    "psr-4": {
+      "Adilis\\Framework\\": "src/"
+    }
+  },
+  "require-dev": {
+    "friendsofphp/php-cs-fixer": "^3.42"
+  },
+  "authors": [
+    {
+      "name": "sas-adilis",
+      "email": "contact@adilis.fr"
+    }
+  ],
+  "require": {}
+}
+
