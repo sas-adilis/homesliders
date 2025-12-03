@@ -28,6 +28,7 @@ $_MODULE['<{homesliders}prestashop>adminhomesliderslidecontroller_4d3d769b812b6f
 $_MODULE['<{homesliders}prestashop>adminhomesliderslidecontroller_f303caf2e0f1d5a675cb68c811d5adb2'] = 'Créer/éditer un slide';
 $_MODULE['<{homesliders}prestashop>adminhomesliderslidecontroller_2d9b9a764fb0be4be10e1b2fce63f561'] = 'Slider';
 $_MODULE['<{homesliders}prestashop>adminhomesliderslidecontroller_01fa4a085f1b9c5b370d32ebb71affab'] = 'Choisissez le groupe auquel appartient cet élément.';
+$_MODULE['<{homesliders}prestashop>adminhomesliderslidecontroller_06301bc820bb93dc2e3a0957e0ada706'] = 'Lien du slide';
 $_MODULE['<{homesliders}prestashop>adminhomesliderslidecontroller_93cba07454f06a4a960172bbd6e2a435'] = 'Oui';
 $_MODULE['<{homesliders}prestashop>adminhomesliderslidecontroller_bafd7322c6e97d25b6299b5d6fe8920b'] = 'Non';
 $_MODULE['<{homesliders}prestashop>adminhomesliderslidecontroller_3a0ef7f393fdd2f83c32f3a26a89f03a'] = 'Médias';
@@ -35,6 +36,7 @@ $_MODULE['<{homesliders}prestashop>adminhomesliderslidecontroller_be53a0541a6d36
 $_MODULE['<{homesliders}prestashop>adminhomesliderslidecontroller_16d93f9b0f872beaea2bd2967992bb19'] = 'Image (mobile)';
 $_MODULE['<{homesliders}prestashop>adminhomesliderslidecontroller_34e2d1989a1dbf75cd631596133ee5ee'] = 'Vidéo';
 $_MODULE['<{homesliders}prestashop>adminhomesliderslidecontroller_3bce0f8a48c694e1ae6bcab00f11bae1'] = 'Vidéo au format MP4. Il est conseillé d\'insérer une image en complément.';
+$_MODULE['<{homesliders}prestashop>adminhomesliderslidecontroller_0b3e53a703df5c4e24a7f49c9c516028'] = 'Vidéo (mobile)';
 $_MODULE['<{homesliders}prestashop>adminhomesliderslidecontroller_8957b8a4d2d2d8f7e4c5f7a4c365255f'] = 'Textes';
 $_MODULE['<{homesliders}prestashop>adminhomesliderslidecontroller_ac71274aea488e58bea2a8c716fc578f'] = 'Haut gauche';
 $_MODULE['<{homesliders}prestashop>adminhomesliderslidecontroller_a20c9be95933e1fcf306b4b62d3792ea'] = 'Haut centre';

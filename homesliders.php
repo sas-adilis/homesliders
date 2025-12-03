@@ -171,6 +171,7 @@ class HomeSliders extends Module implements WidgetInterface
               `id_shop` int(10) unsigned NOT NULL,
               `name` varchar(255) NOT NULL,
               `video_url` varchar(255) NOT NULL,
+              `video_mobile_url` varchar(255) NOT NULL,
               `content_position` int(10) unsigned NOT NULL DEFAULT \'0\',
               `position` int(10) unsigned NOT NULL DEFAULT \'0\',
               `active` tinyint(1) unsigned NOT NULL DEFAULT \'0\',
@@ -214,6 +215,7 @@ class HomeSliders extends Module implements WidgetInterface
 
     public function renderWidget($hookName = null, array $configuration = [])
     {
+        return 'Salut';
         if (!$this->isCached($this->templateFile, $this->getCacheId())) {
             $this->smarty->assign($this->getWidgetVariables($hookName, $configuration));
         }

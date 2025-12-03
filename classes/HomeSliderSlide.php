@@ -42,6 +42,7 @@ class HomeSliderSlide extends ObjectModel
     public $image_url;
     public $image_mobile_url;
     public $video_url = '';
+    public $video_mobile_url = '';
     public $active;
     public $position;
     public $id_shop;
@@ -68,9 +69,11 @@ class HomeSliderSlide extends ObjectModel
             'date_from' => ['type' => self::TYPE_DATE, 'validate' => 'isDate'],
             'date_to' => ['type' => self::TYPE_DATE, 'validate' => 'isDate'],
             'video_url' => ['type' => self::TYPE_STRING, 'validate' => 'isUrl', 'size' => 255],
+            'video_mobile_url' => ['type' => self::TYPE_STRING, 'validate' => 'isUrl', 'size' => 255],
             'content_position' => ['type' => self::TYPE_INT, 'validate' => 'isUnsignedInt', 'required' => true],
 
             // Lang fields
+            'url' => ['type' => self::TYPE_STRING, 'lang' => true, 'validate' => 'isAbsoluteUrl', 'size' => 255],
             'title' => ['type' => self::TYPE_STRING, 'lang' => true, 'validate' => 'isCleanHtml', 'size' => 255],
             'legend' => ['type' => self::TYPE_STRING, 'lang' => true, 'validate' => 'isCleanHtml', 'size' => 255],
             'image_url' => ['type' => self::TYPE_STRING, 'lang' => true, 'validate' => 'isUrl', 'size' => 255],

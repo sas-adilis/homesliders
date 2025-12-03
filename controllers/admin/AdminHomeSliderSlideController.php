@@ -211,6 +211,13 @@ class AdminHomeSliderSlideController extends ModuleAdminController
                     'hint' => $this->l('Choose the group this item belongs to.'),
                 ],
                 [
+                    'type' => 'text',
+                    'name' => 'url',
+                    'id' => 'url',
+                    'label' => $this->l('Slide link'),
+                    'lang' => true,
+                ],
+                [
                     'type' => 'switch',
                     'label' => $this->l('Active'),
                     'name' => 'active',
@@ -244,6 +251,13 @@ class AdminHomeSliderSlideController extends ModuleAdminController
                     'type' => 'text',
                     'name' => 'video_url',
                     'label' => $this->l('Video'),
+                    'class' => 'cms-video-upload',
+                    'desc' => $this->l('Video in MP4 format. It is advisable to insert an image as a supplement.'),
+                ],
+                [
+                    'type' => 'text',
+                    'name' => 'video_mobile_url',
+                    'label' => $this->l('Video (mobile)'),
                     'class' => 'cms-video-upload',
                     'desc' => $this->l('Video in MP4 format. It is advisable to insert an image as a supplement.'),
                 ],
