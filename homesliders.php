@@ -215,27 +215,44 @@ class HomeSliders extends Module implements WidgetInterface
 
     public function renderWidget($hookName = null, array $configuration = [])
     {
-        return 'Salut';
-        if (!$this->isCached($this->templateFile, $this->getCacheId())) {
+
+        $cache_id = $this->getCacheId($this->templateFile);
+        if (isset($configuration['slider'])) {
+            $cache_id .= '|' . (int) $configuration['slider']->id;
+        }
+        return '';
+
+        if (!$this->isCached($this->templateFile,$cache_id)) {
             $this->smarty->assign($this->getWidgetVariables($hookName, $configuration));
         }
 
         return $this->fetch($this->templateFile, $this->getCacheId());
     }
 
-    public function getWidgetVariables($hookName = null, array $configuration = [])
+    /**
+     * @throws PrestaShopDatabaseException
+     * @throws PrestaShopException
+     */
+    public function getWidgetVariables($hookName = null, array $configuration = []): array
     {
-        $slides = $this->getSlides(true);
-        if (is_array($slides)) {
-            foreach ($slides as &$slide) {
-                $slide['sizes'] = @getimagesize(__DIR__ . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR . $slide['image']);
-                if (isset($slide['sizes'][3]) && $slide['sizes'][3]) {
-                    $slide['size'] = $slide['sizes'][3];
-                }
+        if (isset($configuration['slider'])) {
+            $slider = HomeSlider::getSliders($this->context->shop->id, (int) $configuration['slider']->id);
+            if (!$slider) {
+                return [];
+            }
+            $sliders = [$slider];
+        } else {
+            $sliders = HomeSlider::getSliders($this->context->shop->id);
+            if (empty($sliders)) {
+                return [];
             }
         }
+        return [
+        ];
 
-        $config = $this->getConfigFieldsValues();
+        foreach ($sliders as $slider) {
+            $slides = $slider->getSlides(true);
+        }
 
         return [
             'homeslider' => [
@@ -264,59 +281,6 @@ class HomeSliders extends Module implements WidgetInterface
     public function clearCache()
     {
         $this->_clearCache($this->templateFile);
-    }
-
-    public function hookActionShopDataDuplication($params)
-    {
-        Db::getInstance()->execute('
-            INSERT IGNORE INTO ' . _DB_PREFIX_ . 'homeslider (id_homeslider_slide, id_shop)
-            SELECT id_homeslider_slide, ' . (int) $params['new_id_shop'] . '
-            FROM ' . _DB_PREFIX_ . 'homeslider
-            WHERE id_shop = ' . (int) $params['old_id_shop']
-        );
-        $this->clearCache();
-    }
-
-    public function headerHTML()
-    {
-        if (Tools::getValue('controller') != 'AdminModules' && Tools::getValue('configure') != $this->name) {
-            return;
-        }
-
-        $this->context->controller->addJqueryUI('ui.sortable');
-        /* Style & js for fieldset 'slides configuration' */
-        $html = '<script type="text/javascript">
-            $(function() {
-                var $mySlides = $("#slides");
-                $mySlides.sortable({
-                    opacity: 0.6,
-                    cursor: "move",
-                    update: function() {
-                        var order = $(this).sortable("serialize") + "&action=updateSlidesPosition";
-                        $.post("' . $this->context->shop->physical_uri . $this->context->shop->virtual_uri . 'modules/' . $this->name . '/ajax_' . $this->name . '.php?secure_key=' . $this->secure_key . '", order);
-                        }
-                    });
-                $mySlides.hover(function() {
-                    $(this).css("cursor","move");
-                    },
-                    function() {
-                    $(this).css("cursor","auto");
-                });
-            });
-        </script>';
-
-        return $html;
-    }
-
-    public function getNextPosition()
-    {
-        $row = Db::getInstance((bool) _PS_USE_SQL_SLAVE_)->getRow('
-            SELECT MAX(hss.`position`) AS `next_position`
-            FROM `' . _DB_PREFIX_ . 'homeslider_slide` hss, `' . _DB_PREFIX_ . 'homeslider` hs
-            WHERE hss.`id_homeslider_slide` = hs.`id_homeslider_slide` AND hs.`id_shop` = ' . (int) $this->context->shop->id
-        );
-
-        return ++$row['next_position'];
     }
 
     public function getSlides($frontend = null)
@@ -397,6 +361,18 @@ class HomeSliders extends Module implements WidgetInterface
 
     protected function getCacheId($name = null)
     {
-        return parent::getCacheId($name) . '|' . $this->context->getDevice();
+        $cache_array = [];
+        $cache_array[] = $name !== null ? $name : $this->name;
+        if (Configuration::get('PS_SSL_ENABLED')) {
+            $cache_array[] = (int) Tools::usingSecureMode();
+        }
+        if (isset($this->context->shop) && Shop::isFeatureActive()) {
+            $cache_array[] = (int) $this->context->shop->id;
+        }
+        if (isset($this->context->language) && Language::isMultiLanguageActivated()) {
+            $cache_array[] = (int) $this->context->language->id;
+        }
+
+        return implode('|', $cache_array);
     }
 }

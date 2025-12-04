@@ -48,6 +48,29 @@ class HomeSlider extends ObjectModel
         parent::__construct($id, $id_lang, $id_shop, $translator);
     }
 
+    /**
+     * @throws PrestaShopDatabaseException
+     */
+    public static function getSliders(int $id_shop, int $id_homeslider = null, bool $active_only = true): array
+    {
+        $query = new DbQuery();
+        $query->select('*');
+        $query->from('homeslider', 'h');
+        $query->innerJoin('homeslider_shop', 'hs', 'hs.id_homeslider = h.id_homeslider AND hs.id_shop = ' . (int) $id_shop);
+
+        if ($active_only) {
+            $query->where('h.`active` = 1');
+        }
+
+        if ($id_homeslider) {
+            $query->where('h.`id_homeslider` = ' . (int) $id_homeslider);
+            return Db::getInstance()->getRow($query);
+        }
+
+        $query->orderBy('h.`position` ASC');
+        return Db::getInstance()->executeS($query);
+    }
+
     public function add($auto_date = true, $null_values = false)
     {
         if ($this->position <= 0) {
