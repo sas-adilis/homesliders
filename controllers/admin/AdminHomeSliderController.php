@@ -77,6 +77,39 @@ class AdminHomeSliderController extends ModuleAdminController
                     'required' => true,
                 ],
                 [
+                    'type' => 'text',
+                    'name' => 'speed',
+                    'label' => $this->l('Speed'),
+                    'required' => true,
+                    'suffix' => $this->l('milliseconds'),
+                    'desc' => $this->l('Time between two transitions of slides.'),
+                ],
+                [
+                    'type' => 'switch',
+                    'name' => 'pause_on_hover',
+                    'required' => true,
+                    'is_bool' => true,
+                    'label' => $this->l('Pause on hover'),
+                    'desc' => $this->l('Stop sliding when the mouse cursor is over the slideshow.'),
+                    'values' => [
+                        ['id' => 'pause_on_hover_on', 'value' => 1, 'label' => $this->l('Yes')],
+                        ['id' => 'pause_on_hover_off', 'value' => 0, 'label' => $this->l('No')],
+                    ],
+                ],
+                [
+                    'type' => 'switch',
+                    'name' => 'loop',
+                    'required' => true,
+                    'is_bool' => true,
+                    'label' => $this->l('Loop'),
+                    'desc' => $this->l('Loop or stop after the last slide.'),
+                    'values' => [
+                        ['id' => 'loop_on', 'value' => 1, 'label' => $this->l('Yes')],
+                        ['id' => 'loop_off', 'value' => 0, 'label' => $this->l('No')],
+                    ],
+                ],
+
+                [
                     'type' => 'switch',
                     'name' => 'active',
                     'required' => true,

@@ -166,4 +166,33 @@ class HomeSliderSlide extends ObjectModel
 
         return (is_numeric($position)) ? $position : -1;
     }
+
+    /**
+     * @throws PrestaShopDatabaseException
+     */
+    public static function getSlides(int $id_homeslider, int $id_lang)
+    {
+        $query = new DbQuery();
+        $query->select('*');
+        $query->from('homeslider_slide', 's');
+        $query->leftJoin('homeslider_slide_lang', 'sl', 's.`id_homeslider_slide` = sl.`id_homeslider_slide` AND sl.`id_lang` = ' . (int) $id_lang);
+        $query->where('s.`active` = 1');
+        $query->where('(s.`date_from` = "0000-00-00 00:00:00" OR s.`date_from` <= NOW())');
+        $query->where('(s.`date_to` = "0000-00-00 00:00:00" OR s.`date_to` >= NOW())');
+
+        $query->where('s.`id_homeslider` = ' . (int) $id_homeslider);
+        $query->orderBy('s.`position` ASC');
+
+        $slides = Db::getInstance()->executeS($query);
+
+        $base_shop_url = Context::getContext()->shop->getBaseURL();
+        foreach ($slides as &$slide) {
+            $slide['image_url'] = !empty($slide['image_url']) ? $base_shop_url . $slide['image_url'] : '';
+            $slide['image_mobile_url'] = !empty($slide['image_mobile_url']) ? $base_shop_url . $slide['image_mobile_url'] : '';
+            $slide['video_url'] = !empty($slide['video_url']) ? $base_shop_url . $slide['video_url'] : '';
+            $slide['video_mobile_url'] = !empty($slide['video_mobile_url']) ? $base_shop_url . $slide['video_mobile_url'] : '';
+        }
+
+        return $slides;
+    }
 }

@@ -1,0 +1,127 @@
+.homeslider-container {
+  position: relative;
+  --inner-padding: 40px;
+  --header-height-compensate: 180px;
+}
+.homeslider-container .rslides {
+  position: relative;
+  list-style: none;
+  overflow: hidden;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+}
+.homeslider-container .homeslider li {
+  position: absolute;
+  width: 100%;
+  left: 0;
+  top: 0;
+}
+.homeslider-container .homeslider img {
+  object-fit: cover;
+  display: block;
+  z-index: 1;
+  border: 0;
+  width: 100%;
+  height: 100%;
+}
+.homeslider-container .homeslider video {
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.homeslider-container .homeslider .caption {
+  display: block;
+  position: absolute;
+  text-align: left;
+  z-index: 2;
+  color: #fff;
+  text-shadow: 0 0 12px rgba(0, 0, 0, 0.32);
+  width: calc(100% - var(--inner-padding) * 4);
+  /* top-left */
+  /* top-center */
+  /* top-right */
+  /* middle-left */
+  /* middle-center */
+  /* middle-right */
+  /* bottom-left */
+  /* bottom-center */
+  /* bottom-right */
+}
+.homeslider-container .homeslider .caption.caption-position-0 {
+  inset: calc(0px + var(--header-height-compensate, 0px) + var(--inner-padding)) auto auto calc(var(--inner-padding) * 2);
+}
+.homeslider-container .homeslider .caption.caption-position-1 {
+  inset: calc(0px + var(--header-height-compensate, 0px) + var(--inner-padding)) auto auto 50%;
+  transform: translateX(-50%);
+  text-align: center;
+}
+.homeslider-container .homeslider .caption.caption-position-2 {
+  inset: calc(0px + var(--header-height-compensate, 0px) + var(--inner-padding)) calc(var(--inner-padding) * 2) auto auto;
+  text-align: right;
+}
+.homeslider-container .homeslider .caption.caption-position-3 {
+  inset: 50% auto auto calc(var(--inner-padding) * 2);
+  transform: translateY(-50%);
+}
+.homeslider-container .homeslider .caption.caption-position-4 {
+  inset: 50% auto auto 50%;
+  transform: translate(-50%);
+  text-align: center;
+}
+.homeslider-container .homeslider .caption.caption-position-5 {
+  inset: 50% calc(var(--inner-padding) * 2) auto auto;
+  transform: translateY(-50%);
+  text-align: right;
+}
+.homeslider-container .homeslider .caption.caption-position-6 {
+  inset: auto auto var(--inner-padding) calc(var(--inner-padding) * 2);
+}
+.homeslider-container .homeslider .caption.caption-position-7 {
+  inset: auto auto var(--inner-padding) 50%;
+  transform: translateX(-50%);
+  text-align: center;
+}
+.homeslider-container .homeslider .caption.caption-position-8 {
+  inset: auto calc(var(--inner-padding) * 2) var(--inner-padding) auto;
+  text-align: right;
+}
+.homeslider-container .homeslider .caption .caption-title {
+  font-size: 2rem;
+  font-weight: bold;
+}
+.homeslider-container .homeslider .caption .caption-legend {
+  font-size: 1rem;
+  font-weight: bold;
+}
+.homeslider-container .homeslider_nav {
+  position: absolute;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  top: 50%;
+  left: var(--inner-padding);
+  opacity: 0.7;
+  z-index: 3;
+  text-indent: -9999px;
+  overflow: hidden;
+  text-decoration: none;
+  height: 45px;
+  width: 45px;
+  transform: translateY(50%);
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='18' height='34' viewBox='0 0 18 34' fill='none'><path d='M1 1L17 17L1 33' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/></svg>");
+  background-repeat: no-repeat;
+  background-position: center;
+}
+.homeslider-container .homeslider_nav:active,
+.homeslider-container .homeslider_nav:hover {
+  opacity: 1;
+}
+.homeslider-container .homeslider_nav.prev {
+  transform: rotate(180deg);
+}
+.homeslider-container .homeslider_nav.next {
+  left: auto;
+  right: var(--inner-padding);
+}
+
+/*# sourceMappingURL=homesliders.css.map */

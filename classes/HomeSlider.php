@@ -27,6 +27,9 @@ class HomeSlider extends ObjectModel
 {
     public $name;
     public $active;
+    public $speed = 5000;
+    public $pause_on_hover = true;
+    public $loop = true;
     public $position;
 
     /**
@@ -37,6 +40,9 @@ class HomeSlider extends ObjectModel
         'primary' => 'id_homeslider',
         'fields' => [
             'name' => ['type' => self::TYPE_STRING, 'validate' => 'isCleanHtml', 'size' => 255],
+            'speed' => ['type' => self::TYPE_INT, 'validate' => 'isUnsignedInt', 'required' => true],
+            'pause_on_hover' => ['type' => self::TYPE_BOOL, 'validate' => 'isBool', 'required' => true],
+            'loop' => ['type' => self::TYPE_BOOL, 'validate' => 'isBool', 'required' => true],
             'active' => ['type' => self::TYPE_BOOL, 'validate' => 'isBool', 'required' => true],
             'position' => ['type' => self::TYPE_INT, 'validate' => 'isUnsignedInt', 'required' => true],
         ],
@@ -51,24 +57,29 @@ class HomeSlider extends ObjectModel
     /**
      * @throws PrestaShopDatabaseException
      */
-    public static function getSliders(int $id_shop, int $id_homeslider = null, bool $active_only = true): array
+    public static function getSliders(int $id_shop, int $id_lang, ?int $id_homeslider = null): array
     {
         $query = new DbQuery();
         $query->select('*');
         $query->from('homeslider', 'h');
         $query->innerJoin('homeslider_shop', 'hs', 'hs.id_homeslider = h.id_homeslider AND hs.id_shop = ' . (int) $id_shop);
-
-        if ($active_only) {
-            $query->where('h.`active` = 1');
-        }
+        $query->where('h.`active` = 1');
 
         if ($id_homeslider) {
             $query->where('h.`id_homeslider` = ' . (int) $id_homeslider);
-            return Db::getInstance()->getRow($query);
+            $slider = Db::getInstance()->getRow($query);
+            $slider['slides'] = HomeSliderSlide::getSlides($slider['id_homeslider'], $id_lang);
+
+            return $slider;
         }
 
         $query->orderBy('h.`position` ASC');
-        return Db::getInstance()->executeS($query);
+        $sliders = Db::getInstance()->executeS($query);
+        foreach ($sliders as &$slider) {
+            $slider['slides'] = HomeSliderSlide::getSlides($slider['id_homeslider'], $id_lang);
+        }
+
+        return $sliders;
     }
 
     public function add($auto_date = true, $null_values = false)

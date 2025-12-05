@@ -38,4 +38,41 @@ jQuery(document).ready(function ($) {
 
   $(".rslides").responsiveSlides(homesliderConfig);
 
+
+  $(function () {
+    $('.homeslider-container .rslides').each(function () {
+      var $slider = $(this);
+
+      function playActiveSlideVideo() {
+        // on met tout en pause
+        $slider.find('video.hs-video').each(function () {
+          this.pause();
+        });
+
+        // on cherche la slide active (à adapter selon la classe utilisée par ton plugin)
+        var $active = $slider.find('li:visible').first();
+        var video = $active.find('video.hs-video').get(0);
+
+        if (video) {
+          // on s'assure que la vidéo est bien muette pour les mobiles
+          video.muted = true;
+          var playPromise = video.play();
+          if (playPromise && playPromise.catch) {
+            playPromise.catch(function (e) {
+              console.warn('Autoplay vidéo refusé :', e);
+            });
+          }
+        }
+      }
+
+      // au chargement initial
+      playActiveSlideVideo();
+
+      // écoute les événements du slider si dispo
+      // Exemple générique : Rslides déclenche souvent un "before" / "after" personnalisé
+      $slider.on('after.rslides before.rslides', function () {
+        playActiveSlideVideo();
+      });
+    });
+  });
 });

@@ -272,14 +272,12 @@ class AdminHomeSliderSlideController extends ModuleAdminController
                     'label' => $this->l('Title'),
                     'name' => 'title',
                     'lang' => true,
-                    'required' => true,
                 ],
                 [
                     'type' => 'text',
                     'label' => $this->l('Caption'),
                     'name' => 'legend',
                     'lang' => true,
-                    'required' => true,
                 ],
                 [
                     'type' => 'select',
@@ -328,7 +326,7 @@ class AdminHomeSliderSlideController extends ModuleAdminController
                 ],
                 [
                     'type' => 'switch',
-                    'label' => $this->l('Display on desktops'),
+                    'label' => $this->l('Display on desktop'),
                     'name' => 'active_desktop',
                     'is_bool' => true,
                     'values' => [
@@ -338,7 +336,7 @@ class AdminHomeSliderSlideController extends ModuleAdminController
                 ],
                 [
                     'type' => 'switch',
-                    'label' => $this->l('Display on mobiles'),
+                    'label' => $this->l('Display on mobile'),
                     'name' => 'active_mobile',
                     'is_bool' => true,
                     'values' => [
@@ -558,5 +556,28 @@ class AdminHomeSliderSlideController extends ModuleAdminController
         }
 
         return $object;
+    }
+
+    protected function _childValidation()
+    {
+        if (!Tools::getValue('active_mobile') && !Tools::getValue('active_desktop')) {
+            $this->errors[] = $this->l('The slide must be active on at least one device (desktop or mobile).');
+        }
+
+        if (Tools::getValue('date_from') && Tools::getValue('date_to')) {
+            $dateFrom = strtotime(Tools::getValue('date_from'));
+            $dateTo = strtotime(Tools::getValue('date_to'));
+            if ($dateFrom > $dateTo) {
+                $this->errors[] = $this->l('The "From" date must be earlier than the "To" date.');
+            }
+        }
+
+        if (Tools::getValue('active_mobile') && !Tools::getValue('image_mobile_url') && !Tools::getValue('video_mobile_url')) {
+            $this->errors[] = $this->l('For mobile display, please provide at least an image or a video.');
+        }
+
+        if (Tools::getValue('active_desktop') && !Tools::getValue('image_url') && !Tools::getValue('video_url')) {
+            $this->errors[] = $this->l('For desktop display, please provide at least an image or a video.');
+        }
     }
 }
