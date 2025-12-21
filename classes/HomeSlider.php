@@ -75,8 +75,11 @@ class HomeSlider extends ObjectModel
 
         $query->orderBy('h.`position` ASC');
         $sliders = Db::getInstance()->executeS($query);
-        foreach ($sliders as &$slider) {
-            $slider['slides'] = HomeSliderSlide::getSlides($slider['id_homeslider'], $id_lang);
+        foreach ($sliders as $key => $slider) {
+            $slider[$key]['slides'] = HomeSliderSlide::getSlides($slider['id_homeslider'], $id_lang);
+            if (!count($slider[$key]['slides'])) {
+                unset($sliders[$key]);
+            }
         }
 
         return $sliders;
