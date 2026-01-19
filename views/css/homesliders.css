@@ -89,7 +89,11 @@
 }
 .homeslider-container .homeslider .caption .caption-title {
   font-size: 2rem;
+  line-height: 1;
   font-weight: bold;
+}
+.homeslider-container .homeslider .caption .caption-title + .caption-legend {
+  margin-top: 0.75rem;
 }
 .homeslider-container .homeslider .caption .caption-legend {
   font-size: 1rem;
